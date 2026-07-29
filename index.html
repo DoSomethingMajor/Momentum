@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+
+    name="viewport"
+
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+
+  >
+
+  <meta
+
+    name="description"
+
+    content="Momentum is a personal motivation, goal, habit, mood, and streak tracker."
+
+  >
+
+  <meta name="theme-color" content="#6c5ce7">
+
+  <title>Momentum</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="script.js" defer></script>
+
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <header class="topbar">
+
+      <div>
+
+        <p class="eyebrow" id="todayLabel">Today</p>
+
+        <h1 id="greeting">Good afternoon</h1>
+
+      </div>
+
+      <div class="topbar-actions">
+
+        <button
+
+          class="icon-button"
+
+          id="themeButton"
+
+          type="button"
+
+          aria-label="Switch theme"
+
+          title="Switch theme"
+
+        >
+
+          <span id="themeIcon" aria-hidden="true">☀️</span>
+
+        </button>
+
+        <button
+
+          class="avatar-button"
+
+          id="profileButton"
+
+          type="button"
+
+          aria-label="Open profile"
+
+        >
+
+          <span id="avatarInitial">M</span>
+
+        </button>
+
+      </div>
+
+    </header>
+
+    <main class="main-content">
+
+      <section class="hero-card">
+
+        <div class="hero-top">
+
+          <span class="pill">Daily inspiration</span>
+
+          <button
+
+            class="small-icon-button"
+
+            id="newQuoteButton"
+
+            type="button"
+
+            aria-label="Show another quote"
+
+            title="New quote"
+
+          >
+
+            ↻
+
+          </button>
+
+        </div>
+
+        <blockquote id="quoteText">
+
+          Small progress is still progress.
+
+        </blockquote>
+
+        <div class="quote-footer">
+
+          <cite id="quoteAuthor">Momentum</cite>
+
+          <button class="text-button" id="shareQuoteButton" type="button">
+
+            Share
+
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="stats-grid" aria-label="Progress summary">
+
+        <article class="stat-card">
+
+          <div class="stat-icon stat-icon-fire">🔥</div>
+
+          <div>
+
+            <p class="stat-label">Current streak</p>
+
+            <p class="stat-value">
+
+              <span id="streakValue">0</span>
+
+              <span class="stat-unit">days</span>
+
+            </p>
+
+          </div>
+
+        </article>
+
+        <article class="stat-card">
+
+          <div class="stat-icon stat-icon-target">🎯</div>
+
+          <div>
+
+            <p class="stat-label">Today</p>
+
+            <p class="stat-value">
+
+              <span id="todayProgressValue">0</span>
+
+              <span class="stat-unit">%</span>
+
+            </p>
+
+          </div>
+
+        </article>
+
+      </section>
+
+      <section class="section-card focus-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="section-kicker">Main priority</p>
+
+            <h2>What matters most today?</h2>
+
+          </div>
+
+          <span class="status-badge" id="focusStatus">Not started</span>
+
+        </div>
+
+        <form id="focusForm" class="focus-form">
+
+          <label class="sr-only" for="focusInput">Daily priority</label>
+
+          <input
+
+            id="focusInput"
+
+            name="focus"
+
+            type="text"
+
+            maxlength="100"
+
+            placeholder="Example: Finish my project outline"
+
+            autocomplete="off"
+
+          >
+
+          <button class="primary-button" type="submit">
+
+            Save focus
+
+          </button>
+
+        </form>
+
+        <div class="saved-focus hidden" id="savedFocus">
+
+          <button
+
+            class="focus-check"
+
+            id="completeFocusButton"
+
+            type="button"
+
+            aria-label="Complete daily priority"
+
+          >
+
+            <span aria-hidden="true">✓</span>
+
+          </button>
+
+          <div class="saved-focus-content">
+
+            <p id="savedFocusText"></p>
+
+            <small id="focusCompletedMessage">
+
+              Tap the check when completed
+
+            </small>
+
+          </div>
+
+          <button
+
+            class="small-icon-button"
+
+            id="editFocusButton"
+
+            type="button"
+
+            aria-label="Edit daily priority"
+
+          >
+
+            ✎
+
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="section-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="section-kicker">Daily systems</p>
+
+            <h2>Habits</h2>
+
+          </div>
+
+          <button class="text-button" id="addHabitButton" type="button">
+
+            + Add
+
+          </button>
+
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+
+          <div class="progress-fill" id="habitProgressFill"></div>
+
+        </div>
+
+        <p class="progress-copy" id="habitProgressText">
+
+          0 of 0 habits completed
+
+        </p>
+
+        <ul class="habit-list" id="habitList"></ul>
+
+        <div class="empty-state hidden" id="habitEmptyState">
+
+          <div class="empty-state-icon">🌱</div>
+
+          <h3>Start with one small habit</h3>
+
+          <p>Consistency matters more than intensity.</p>
+
+          <button class="secondary-button" id="emptyAddHabitButton" type="button">
+
+            Add your first habit
+
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="section-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="section-kicker">Daily check-in</p>
+
+            <h2>How are you feeling?</h2>
+
+          </div>
+
+          <span class="status-badge" id="moodStatus">Not checked in</span>
+
+        </div>
+
+        <div class="mood-grid" role="group" aria-label="Choose your mood">
+
+          <button class="mood-button" type="button" data-mood="1">
+
+            <span aria-hidden="true">😞</span>
+
+            <small>Low</small>
+
+          </button>
+
+          <button class="mood-button" type="button" data-mood="2">
+
+            <span aria-hidden="true">😕</span>
+
+            <small>Rough</small>
+
+          </button>
+
+          <button class="mood-button" type="button" data-mood="3">
+
+            <span aria-hidden="true">😐</span>
+
+            <small>Okay</small>
+
+          </button>
+
+          <button class="mood-button" type="button" data-mood="4">
+
+            <span aria-hidden="true">🙂</span>
+
+            <small>Good</small>
+
+          </button>
+
+          <button class="mood-button" type="button" data-mood="5">
+
+            <span aria-hidden="true">😄</span>
+
+            <small>Great</small>
+
+          </button>
+
+        </div>
+
+        <label class="reflection-label" for="reflectionInput">
+
+          One sentence about today
+
+        </label>
+
+        <textarea
+
+          id="reflectionInput"
+
+          maxlength="240"
+
+          rows="3"
+
+          placeholder="What helped, challenged, or inspired you?"
+
+        ></textarea>
+
+        <div class="reflection-footer">
+
+          <span id="reflectionCount">0 / 240</span>
+
+          <button class="secondary-button" id="saveReflectionButton" type="button">
+
+            Save check-in
+
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="section-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="section-kicker">Last seven days</p>
+
+            <h2>Weekly progress</h2>
+
+          </div>
+
+          <strong id="weeklyAverage">0%</strong>
+
+        </div>
+
+        <div class="week-chart" id="weekChart" aria-label="Weekly progress chart"></div>
+
+      </section>
+
+      <section class="section-card">
+
+        <div class="section-heading">
+
+          <div>
+
+            <p class="section-kicker">Milestones</p>
+
+            <h2>Achievements</h2>
+
+          </div>
+
+          <span id="achievementCount">0 / 4</span>
+
+        </div>
+
+        <div class="achievement-grid" id="achievementGrid"></div>
+
+      </section>
+
+      <section class="premium-card">
+
+        <div class="premium-copy">
+
+          <span class="premium-label">Momentum Pro</span>
+
+          <h2>Unlock your full growth dashboard</h2>
+
+          <p>
+
+            Advanced insights, unlimited habits, custom themes, and guided plans.
+
+          </p>
+
+        </div>
+
+        <button class="premium-button" id="upgradeButton" type="button">
+
+          Explore Pro
+
+        </button>
+
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+
+      <button class="nav-item active" type="button" data-section="today">
+
+        <span aria-hidden="true">⌂</span>
+
+        <small>Today</small>
+
+      </button>
+
+      <button class="nav-item" type="button" data-section="progress">
+
+        <span aria-hidden="true">▥</span>
+
+        <small>Progress</small>
+
+      </button>
+
+      <button class="nav-item" type="button" data-section="achievements">
+
+        <span aria-hidden="true">★</span>
+
+        <small>Wins</small>
+
+      </button>
+
+      <button class="nav-item" type="button" data-section="profile">
+
+        <span aria-hidden="true">☺</span>
+
+        <small>Profile</small>
+
+      </button>
+
+    </nav>
+
+  </div>
+
+  <div class="modal-backdrop hidden" id="habitModal" role="presentation">
+
+    <section
+
+      class="modal"
+
+      role="dialog"
+
+      aria-modal="true"
+
+      aria-labelledby="habitModalTitle"
+
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <p class="section-kicker">Build consistency</p>
+
+          <h2 id="habitModalTitle">Add a habit</h2>
+
+        </div>
+
+        <button
+
+          class="icon-button"
+
+          id="closeHabitModalButton"
+
+          type="button"
+
+          aria-label="Close"
+
+        >
+
+          ×
+
+        </button>
+
+      </div>
+
+      <form id="habitForm">
+
+        <label for="habitNameInput">Habit name</label>
+
+        <input
+
+          id="habitNameInput"
+
+          type="text"
+
+          maxlength="60"
+
+          placeholder="Example: Walk for 20 minutes"
+
+          required
+
+        >
+
+        <label for="habitEmojiInput">Icon</label>
+
+        <select id="habitEmojiInput">
+
+          <option value="💧">💧 Water</option>
+
+          <option value="🏃">🏃 Exercise</option>
+
+          <option value="📚">📚 Reading</option>
+
+          <option value="🧘">🧘 Meditation</option>
+
+          <option value="✍️">✍️ Journaling</option>
+
+          <option value="🥗">🥗 Healthy food</option>
+
+          <option value="💤">💤 Sleep</option>
+
+          <option value="💼">💼 Work</option>
+
+          <option value="💰">💰 Money</option>
+
+          <option value="🌱">🌱 Personal growth</option>
+
+        </select>
+
+        <div class="modal-actions">
+
+          <button
+
+            class="secondary-button"
+
+            id="cancelHabitButton"
+
+            type="button"
+
+          >
+
+            Cancel
+
+          </button>
+
+          <button class="primary-button" type="submit">
+
+            Add habit
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </div>
+
+  <div class="modal-backdrop hidden" id="profileModal" role="presentation">
+
+    <section
+
+      class="modal"
+
+      role="dialog"
+
+      aria-modal="true"
+
+      aria-labelledby="profileModalTitle"
+
+    >
+
+      <div class="modal-header">
+
+        <div>
+
+          <p class="section-kicker">Personalization</p>
+
+          <h2 id="profileModalTitle">Your profile</h2>
+
+        </div>
+
+        <button
+
+          class="icon-button"
+
+          id="closeProfileModalButton"
+
+          type="button"
+
+          aria-label="Close"
+
+        >
+
+          ×
+
+        </button>
+
+      </div>
+
+      <form id="profileForm">
+
+        <label for="nameInput">First name</label>
+
+        <input
+
+          id="nameInput"
+
+          type="text"
+
+          maxlength="30"
+
+          placeholder="Your name"
+
+        >
+
+        <label for="goalInput">Your main goal</label>
+
+        <input
+
+          id="goalInput"
+
+          type="text"
+
+          maxlength="100"
+
+          placeholder="Example: Become more consistent"
+
+        >
+
+        <div class="modal-actions">
+
+          <button
+
+            class="danger-button"
+
+            id="resetDataButton"
+
+            type="button"
+
+          >
+
+            Reset data
+
+          </button>
+
+          <button class="primary-button" type="submit">
+
+            Save profile
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </div>
+
+  <div class="modal-backdrop hidden" id="premiumModal" role="presentation">
+
+    <section
+
+      class="modal premium-modal"
+
+      role="dialog"
+
+      aria-modal="true"
+
+      aria-labelledby="premiumModalTitle"
+
+    >
+
+      <button
+
+        class="modal-close-floating"
+
+        id="closePremiumModalButton"
+
+        type="button"
+
+        aria-label="Close"
+
+      >
+
+        ×
+
+      </button>
+
+      <div class="premium-modal-icon">✦</div>
+
+      <p class="premium-label">Momentum Pro</p>
+
+      <h2 id="premiumModalTitle">Become unstoppable</h2>
+
+      <p class="premium-description">
+
+        This screen is a future checkout preview. Payments are not connected yet.
+
+      </p>
+
+      <ul class="feature-list">
+
+        <li><span>✓</span> Unlimited daily habits</li>
+
+        <li><span>✓</span> Detailed mood and performance insights</li>
+
+        <li><span>✓</span> Guided 7-day and 30-day growth plans</li>
+
+        <li><span>✓</span> Premium themes and custom reminders</li>
+
+      </ul>
+
+      <div class="price-card">
+
+        <div>
+
+          <strong>$4.99</strong>
+
+          <span>/ month</span>
+
+        </div>
+
+        <span class="price-badge">Cancel anytime</span>
+
+      </div>
+
+      <button class="premium-button full-width" id="mockPurchaseButton" type="button">
+
+        Start free trial
+
+      </button>
+
+      <small class="payment-note">
+
+        Demo only. No payment will be collected.
+
+      </small>
+
+    </section>
+
+  </div>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+
+</html>
